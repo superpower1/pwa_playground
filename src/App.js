@@ -5,6 +5,7 @@ import './App.css';
 import GoogleMap from './components/GoogleMap';
 import Speedo from './components/Speedo';
 import ProgressBubble from './components/ProgressBubble';
+import ProgressCircle from './components/ProgressCircle';
 
 class App extends Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class App extends Component {
         <input type="number" min='0' max='100' onChange={this.changeValue} value={this.state.value}/>
         <Speedo value={this.state.value}/>
         <ProgressBubble value={this.state.value}/>
+        <ProgressCircle value={this.state.value} valuelabel='Availability' size={150} strokewidth={10}/>
       </div>
     );
   }
