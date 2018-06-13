@@ -4,8 +4,21 @@ import './App.css';
 
 import GoogleMap from './components/GoogleMap';
 import Speedo from './components/Speedo';
+import ProgressBubble from './components/ProgressBubble';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state={
+      value: 50
+    }
+    this.changeValue = this.changeValue.bind(this);
+  }
+
+  changeValue(e) {
+    this.setState({value: parseInt(e.target.value)});
+  }
+
   render() {
     return (
       <div className="App">
@@ -17,7 +30,9 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         {/* <GoogleMap></GoogleMap> */}
-        <Speedo></Speedo>
+        <input type="number" min='0' max='100' onChange={this.changeValue} value={this.state.value}/>
+        <Speedo value={this.state.value}/>
+        <ProgressBubble value={this.state.value}/>
       </div>
     );
   }
