@@ -10,7 +10,7 @@ class ProgressCircle extends Component {
   render() {
 
     const halfsize = (this.props.size * 0.5);
-    const radius = halfsize - (this.props.strokewidth * 0.5);
+    const radius = halfsize - (this.props.strokewidth);
     const circumference = 2 * Math.PI * radius;
     const strokeval = circumference - ((this.props.value * circumference) / 100);
     const dashval = (strokeval + ' ' + circumference);
@@ -24,6 +24,11 @@ class ProgressCircle extends Component {
     const pointX = halfsize + radius * Math.cos(angleInRadians);
     const pointY = halfsize + radius * Math.sin(angleInRadians);
     const pointColor = percentageToHsl((this.props.value / 100), 0, 120);
+
+    const circumference2 = 2 * Math.PI * (radius-this.props.strokewidth);
+    const strokeval2 = (this.props.benchmarkValue * circumference2) / 100;
+    const dashval2 = (strokeval2 + ' ' + circumference2);
+    const benchmarkstyle = {strokeWidth: this.props.strokewidth/2, strokeDasharray: dashval2}
 
     return (
       <svg width={this.props.size} height={this.props.size} className="donutchart">
@@ -45,6 +50,7 @@ class ProgressCircle extends Component {
           a ${radius},${radius} 0 0,1 0,-${radius*2}`}
           style={{fill: 'none', stroke:"url(#linearColors2)", strokeWidth:this.props.strokewidth/2}}/>
 
+        <circle r={radius-this.props.strokewidth} cx={halfsize} cy={halfsize} transform={rotateval} style={benchmarkstyle} className="donutchart-benchmark"/>
         <circle r={radius} cx={halfsize} cy={halfsize} transform={rotateval2} style={indicatorstyle} className="donutchart-indicator"/>
         <circle r={this.props.strokewidth/4*3} cx={pointX} cy={pointY} style={{fill: pointColor, stroke:'#DAE2E5', strokeWidth:this.props.strokewidth/4}}/>
 
