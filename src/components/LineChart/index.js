@@ -135,9 +135,6 @@ const cardChartData2 = {
   ],
 };
 
-
-console.log(CustomTooltips);
-
 const cardChartOpts2 = {
   tooltips: {
     enabled: false,
