@@ -10,6 +10,7 @@ import ProgressBubble from './components/ProgressBubble';
 import ProgressCircle from './components/ProgressCircle';
 import LineChart from './components/LineChart';
 import CustomToast from './components/CustomToast';
+import TextboxFilter from './components/TextboxFilter';
 
 import swal from 'sweetalert2';
 import { ToastContainer, toast} from 'react-toastify';
@@ -23,10 +24,70 @@ class App extends Component {
       updating: false
     }
     this.changeValue = this.changeValue.bind(this);
+    this.openNewPage = this.openNewPage.bind(this);
   }
 
   changeValue(e) {
     this.setState({value: parseInt(e.target.value)});
+  }
+
+  openNewPage() {
+    // const url = 'https://na2-latest.sinefa.com?path=settings';
+    // const requestOptions = {
+    //   method: 'GET',
+    //   headers: {'x-api-key': `ec6f310c-cc49-4163-a215-fd5572866403`},
+    //   responseType: "blob"
+    // }
+    // fetch(url, requestOptions)
+    // .then(res => {
+    //   return res.text();
+    // })
+    // .then(res => {
+    //   const newWin = window.open(url);
+    //   // newWin.document.write(`${res}`)
+    //   // newWin.document.body.innerHTML = res;
+    // })
+
+    // const requestOptions = {
+    //   method: 'POST',
+    //   headers: {
+    //     'content-type': 'application/x-www-form-urlencoded'
+    //   },
+    //   body: "user=hz%40sp1.com&password=123456"
+    //
+    // }
+    //
+    // const url = `https://ap1-latest.sinefa.com/api/v1/auth/login`;
+    // fetch(url, requestOptions)
+    //   .then(res => {
+    //     if (res.ok) {
+    //       console.log('login success');
+    //       return res.text();
+    //     } else {
+    //       console.log('login failed');
+    //     }
+    //   })
+    //   .then(res => {
+    //     const newWin = window.open();
+    //     newWin.document.write(`${res}`);
+    //   })
+
+    var f = document.createElement("form");
+    f.setAttribute('method',"post");
+    f.setAttribute('action',"https://ap1-latest.sinefa.com/api/v1/auth/login");
+
+    var user = document.createElement("input");
+    user.setAttribute('value',"hz@sp1.com");
+    user.setAttribute('name',"user");
+
+    var pwd = document.createElement("input");
+    pwd.setAttribute('value',"123456");
+    pwd.setAttribute('name',"password");
+
+    f.appendChild(user);
+    f.appendChild(pwd);
+    document.body.appendChild(f);
+    f.submit();
   }
 
   toastr() {
@@ -96,6 +157,16 @@ class App extends Component {
           <ProgressBubble value={this.state.value}/>
           <ProgressCircle value={this.state.value} benchmarkValue={80} valuelabel='Availability' size={150} strokewidth={10}/>
         </div>
+        <button onClick={this.openNewPage}>open</button>
+        <form action="https://ap1-latest.sinefa.com/api/v1/auth/login"
+        target="login"
+        onSubmit={()=>{window.open('https://na2-latest.sinefa.com/?path=settings', 'login', 'width=500, height=500')}}
+        method="post">
+          <input type="email" name="user"/>
+          <input type="password" name="password"/>
+          <button>login</button>
+        </form>
+        <TextboxFilter/>
       </div>
     );
   }
