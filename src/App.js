@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import $ from 'jquery';
 import logo from './logo.svg';
 import './App.css';
 import 'animate.css/animate.min.css';
@@ -25,36 +27,27 @@ class App extends Component {
     }
     this.changeValue = this.changeValue.bind(this);
     this.openNewPage = this.openNewPage.bind(this);
+    this.postMsg = this.postMsg.bind(this);
   }
 
   changeValue(e) {
     this.setState({value: parseInt(e.target.value)});
   }
 
-  openNewPage() {
-    // const url = 'https://na2-latest.sinefa.com?path=settings';
-    // const requestOptions = {
-    //   method: 'GET',
-    //   headers: {'x-api-key': `ec6f310c-cc49-4163-a215-fd5572866403`},
-    //   responseType: "blob"
-    // }
-    // fetch(url, requestOptions)
-    // .then(res => {
-    //   return res.text();
-    // })
-    // .then(res => {
-    //   const newWin = window.open(url);
-    //   // newWin.document.write(`${res}`)
-    //   // newWin.document.body.innerHTML = res;
-    // })
+  postMsg() {
+    const bc = new window.BroadcastChannel('userInfo');
+    bc.postMessage({user: 'L'});
+  }
 
+  openNewPage() {
+
+    // let formData = new FormData();
+    // formData.append('user', 'hz4@sp1.com');
+    // formData.append('password', '123456');
+    //
     // const requestOptions = {
     //   method: 'POST',
-    //   headers: {
-    //     'content-type': 'application/x-www-form-urlencoded'
-    //   },
-    //   body: "user=hz%40sp1.com&password=123456"
-    //
+    //   body: formData
     // }
     //
     // const url = `https://ap1-latest.sinefa.com/api/v1/auth/login`;
@@ -68,13 +61,28 @@ class App extends Component {
     //     }
     //   })
     //   .then(res => {
-    //     const newWin = window.open();
-    //     newWin.document.write(`${res}`);
+    //     window.open('https://ap1-latest.sinefa.com/?path=settings')
+    //     // const newWin = window.open();
+    //     // newWin.document.write(`${res}`);
     //   })
+
+    // axios({
+    //   method: 'get',
+    //   url: "https://ap1-latest.sinefa.com/?path=settings",
+    //   headers: {'x-api-key': 'ec6f310c-cc49-4163-a215-fd5572866403'},
+    // })
+    // .then(function (response) {
+    //   const newWin = window.open('', '', "width=500, height=500");
+    //   const html = $.parseHTML(response.data);
+    //   $(newWin.document.body).html(html);
+    //   // newWin.document.write(`${response.data}`);
+    // })
 
     var f = document.createElement("form");
     f.setAttribute('method',"post");
     f.setAttribute('action',"https://ap1-latest.sinefa.com/api/v1/auth/login");
+    f.setAttribute('target',"_blank")
+    f.setAttribute('style',"display: none;")
 
     var user = document.createElement("input");
     user.setAttribute('value',"hz@sp1.com");
@@ -84,10 +92,16 @@ class App extends Component {
     pwd.setAttribute('value',"123456");
     pwd.setAttribute('name',"password");
 
+    var redirect = document.createElement("input");
+    redirect.setAttribute('value',"/?path=settings");
+    redirect.setAttribute('name',"redirect");
+
     f.appendChild(user);
     f.appendChild(pwd);
+    f.appendChild(redirect);
     document.body.appendChild(f);
     f.submit();
+    // window.open("https://ap1-latest.sinefa.com/?path=setting")
   }
 
   toastr() {
@@ -113,6 +127,14 @@ class App extends Component {
 
   toggleUpdate() {
     this.setState({updating: !this.state.updating})
+  }
+
+  componentDidMount() {
+    const bc = new window.BroadcastChannel('userInfo');
+    bc.onmessage = ev => {
+      const name = ev.data.user;
+      this.setState({name});
+    }
   }
 
   render() {
@@ -160,12 +182,15 @@ class App extends Component {
         <button onClick={this.openNewPage}>open</button>
         <form action="https://ap1-latest.sinefa.com/api/v1/auth/login"
         target="login"
-        onSubmit={()=>{window.open('https://na2-latest.sinefa.com/?path=settings', 'login', 'width=500, height=500')}}
+        // onSubmit={()=>{window.open('https://na2-latest.sinefa.com/?path=settings', 'login', 'width=500, height=500')}}
         method="post">
-          <input type="email" name="user"/>
-          <input type="password" name="password"/>
+          <input type="email" name="user" value="hz4@sp1.com"/>
+          <input type="password" name="password" value="123456"/>
+          <input type="text" name="redirect" value="/?path=settings"/>
           <button>login</button>
         </form>
+        <button onClick={this.postMsg}>post</button>
+        <span>{this.state.name}</span>
         <TextboxFilter/>
       </div>
     );
