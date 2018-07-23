@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Line} from 'react-chartjs-2';
 import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities';
+import 'chartjs-plugin-zoom';
 
 function CustomTooltips(tooltipModel) {
   var _this = this;
@@ -167,6 +168,11 @@ const cardChartOpts2 = {
         },
       }],
   },
+  zoom: {
+    enabled: true,
+    drag: true,
+    mode: 'x'
+  },
   elements: {
     line: {
       tension: 0.00001,
@@ -183,7 +189,7 @@ const cardChartOpts2 = {
 class LineCharts extends Component {
   render() {
     return (
-      <div style={{width: '200px', height: '70px'}}>
+      <div style={{height: '500px'}}>
         <Line data={cardChartData2} options={cardChartOpts2} height={70} />
       </div>
     );

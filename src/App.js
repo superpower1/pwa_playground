@@ -166,7 +166,7 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         {/* <GoogleMap></GoogleMap> */}
-        {/* <LineChart></LineChart> */}
+        <LineChart></LineChart>
         <input type="number" min='0' max='100' onChange={this.changeValue} value={this.state.value}/>
         <button onClick={()=>this.toastr()}>Swal2</button>
         <button onClick={()=>this.notify()}>Toastify</button>
