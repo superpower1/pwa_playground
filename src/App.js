@@ -13,6 +13,7 @@ import ProgressCircle from './components/ProgressCircle';
 import LineChart from './components/LineChart';
 import CustomToast from './components/CustomToast';
 import TextboxFilter from './components/TextboxFilter';
+import Tooltip from './components/Tooltip';
 
 import swal from 'sweetalert2';
 import { ToastContainer, toast} from 'react-toastify';
@@ -192,6 +193,7 @@ class App extends Component {
         <button onClick={this.postMsg}>post</button>
         <span>{this.state.name}</span>
         <TextboxFilter/>
+        <Tooltip/>
       </div>
     );
   }
